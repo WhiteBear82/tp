@@ -7,12 +7,11 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
-        "darren-lim": "Darren Lim",
+        "yi-fei-yang": "Yi Fei Yang",
         "alicia-chang": "Alicia Chang",
-        "jane-doe": "Jane Doe",
-        "johnny-doe": "Johnny Doe",
-        "jean-doe": "Jean Doe",
-        "victor-poh-hong-rong": "Victor Poh Hong Rong"
+        "justin-soon": "Justin Soon",
+        "victor-poh-hong-rong": "Victor Poh Hong Rong",
+        "darren-lim": "Darren Lim"
       },
       "headingKeywords": {}
     },
@@ -137,10 +136,26 @@
       "headingKeywords": {}
     },
     {
+      "src": "team/findingfaey.md",
+      "title": "Yi Fei's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "team/johndoe.md",
       "title": "John Doe's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/jsjk112344.md",
+      "title": "Justin Soon's Project Portfolio Page",
+      "headings": {
+        "project-cafeconnect": "Project: CaféConnect"
       },
       "headingKeywords": {}
     },
