@@ -62,6 +62,9 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private VBox mainPane;
 
+    @FXML
+    private StackPane displayProfilePlaceholder;
+
     private int currentBackgroundIndex = 1; // Start with the first background
     private int themeIndex = 0; // 0 = Dark, 1 = Light, 2 = Grey-Gold
 
