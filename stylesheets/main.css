@@ -1,5 +1,26 @@
+/* CaféConnect GitHub Pages CSS - Merged with app styling */
+
+/* Main Color Palette from CaféConnect */
+:root {
+  --dark-brown: #4A3829;      /* text and headers */
+  --medium-brown: #7D5A50;    /* accent color */
+  --light-taupe: #B9A89B;     /* secondary elements */
+  --sand: #D9CAB3;            /* borders and highlights */
+  --cream: #F6F2E9;           /* background color */
+  --sage-green: #8A9A5B;      /* accent color 2 */
+  --terracotta: #BC6C25;      /* highlight color */
+}
+
+/* Base styling */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--dark-brown);
+  background-color: var(--cream);
+}
+
 mark {
-  background-color: #ff0;
+  background-color: var(--sand);
+  color: var(--dark-brown);
   border-radius: 5px;
   padding-top: 0;
   padding-bottom: 0;
@@ -13,14 +34,40 @@ mark {
   width: 100%;
 }
 
-/* Scrollbar */
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark-brown);
+  font-weight: bold;
+}
 
+h1 {
+  border-bottom: 2px solid var(--medium-brown);
+  padding-bottom: 0.3em;
+}
+
+h2, h3, h4, h5, h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Links */
+a {
+  color: var(--medium-brown);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--terracotta);
+  text-decoration: underline;
+}
+
+/* Scrollbar - styled to match CaféConnect */
 .slim-scroll::-webkit-scrollbar {
   width: 5px;
 }
 
 .slim-scroll::-webkit-scrollbar-thumb {
-  background: #808080;
+  background: var(--medium-brown);
   border-radius: 20px;
 }
 
@@ -34,7 +81,7 @@ mark {
 }
 
 .slim-scroll-blue::-webkit-scrollbar-thumb {
-  background: #00b0ef;
+  background: var(--sage-green);
   border-radius: 20px;
 }
 
@@ -44,11 +91,11 @@ mark {
 }
 
 /* Layout containers */
-
 #flex-body {
   display: flex;
   flex: 1;
   align-items: start;
+  background-color: var(--cream);
 }
 
 #content-wrapper {
@@ -60,6 +107,7 @@ mark {
   padding: 0.8rem 20px 0 20px;
   transition: 0.4s;
   -webkit-transition: 0.4s;
+  background-color: var(--cream);
 }
 
 #site-nav,
@@ -72,10 +120,11 @@ mark {
   max-width: 300px;
   max-height: calc(100vh - var(--sticky-header-height));
   width: 300px;
+  background-color: var(--cream);
 }
 
 #site-nav {
-  border-right: 1px solid lightgrey;
+  border-right: 1px solid var(--sand);
   padding-bottom: 20px;
   z-index: 999;
 }
@@ -90,9 +139,81 @@ mark {
 }
 
 #page-nav {
-  border-left: 1px solid lightgrey;
+  border-left: 1px solid var(--sand);
 }
 
+/* Navigation styling to match CaféConnect theme */
+.site-nav-list a {
+  color: var(--dark-brown);
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: block;
+}
+
+.site-nav-list a:hover {
+  background-color: var(--sand);
+  text-decoration: none;
+}
+
+.site-nav-list a.active {
+  background-color: var(--medium-brown);
+  color: var(--cream);
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid var(--sand);
+}
+
+th {
+  background-color: var(--light-taupe);
+  color: var(--dark-brown);
+  padding: 8px;
+  text-align: left;
+}
+
+td {
+  padding: 8px;
+  border-top: 1px solid var(--sand);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(217, 202, 179, 0.3);
+}
+
+/* Code blocks */
+pre, code {
+  background-color: rgba(185, 168, 155, 0.2);
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+  font-family: monospace;
+}
+
+pre {
+  padding: 1em;
+  overflow-x: auto;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--medium-brown);
+  padding-left: 1em;
+  margin-left: 0;
+  color: var(--dark-brown);
+  background-color: rgba(217, 202, 179, 0.2);
+  padding: 0.5em 1em;
+  border-radius: 0 5px 5px 0;
+}
+
+/* Media queries - preserved from original */
 @media screen and (max-width: 1299.98px) {
   #page-nav {
     display: none;
@@ -136,35 +257,80 @@ mark {
 
   /* Reduce font size when printing */
   h1 {
-      font-size: 1.2rem !important;
+    font-size: 1.2rem !important;
   }
   h2 {
-      font-size: 1.0rem !important;
+    font-size: 1.0rem !important;
   }
   h3 {
-      font-size: 0.9rem !important;
+    font-size: 0.9rem !important;
   }
   h4 {
-      font-size: 0.8rem !important;
+    font-size: 0.8rem !important;
   }
   h5 {
-      font-size: 0.7rem !important;
+    font-size: 0.7rem !important;
   }
   body {
-      font-size: 0.65rem !important;
+    font-size: 0.65rem !important;
   }
   .btn {
-      font-size: 0.65rem !important;
+    font-size: 0.65rem !important;
   }
   img {
-      zoom: 0.8;  /* might not work on some browsers */
+    zoom: 0.8;  /* might not work on some browsers */
   }
 }
 
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #e46c0a;
+/* Buttons styled to match CafeConnect */
+.btn {
+  padding: 5px 15px;
+  border: 2px solid var(--light-taupe);
+  border-radius: 5px;
+  background-color: rgba(246, 242, 233, 0.9);
+  color: var(--dark-brown);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--sand);
+}
+
+.btn-primary {
+  background-color: var(--medium-brown);
+  color: var(--cream);
+}
+
+.btn-primary:hover {
+  background-color: var(--terracotta);
+}
+
+/* Additional utility classes */
+.tag {
+  display: inline-block;
+  background-color: var(--sage-green);
+  color: var(--cream);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.card {
+  background-color: rgba(246, 242, 233, 0.9);
+  border: 1px solid var(--sand);
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.card-header {
+  background-color: var(--light-taupe);
+  color: var(--dark-brown);
+  padding: 10px 15px;
+  margin: -15px -15px 15px -15px;
+  border-radius: 5px 5px 0 0;
+  font-weight: bold;
 }

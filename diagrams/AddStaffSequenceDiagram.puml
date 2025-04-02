@@ -1,0 +1,74 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as CafeConnectParser LOGIC_COLOR
+participant ":AddStaffCommandParser" as AddStaffCommandParser LOGIC_COLOR
+participant "s:AddStaffCommand" as AddStaffCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("staffadd ...")
+activate LogicManager
+
+LogicManager -> CafeConnectParser : parseCommand("staffadd ...")
+activate CafeConnectParser
+
+create AddStaffCommandParser
+CafeConnectParser -> AddStaffCommandParser
+activate AddStaffCommandParser
+
+AddStaffCommandParser --> CafeConnectParser
+deactivate AddStaffCommandParser
+
+CafeConnectParser -> AddStaffCommandParser : parse("...")
+activate AddStaffCommandParser
+
+create AddStaffCommand
+AddStaffCommandParser -> AddStaffCommand
+activate AddStaffCommand
+
+AddStaffCommand --> AddStaffCommandParser :
+deactivate AddStaffCommand
+
+AddStaffCommandParser --> CafeConnectParser : s
+deactivate AddStaffCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddStaffCommandParser -[hidden]-> CafeConnectParser
+destroy AddStaffCommandParser
+
+CafeConnectParser --> LogicManager : s
+deactivate CafeConnectParser
+
+LogicManager -> AddStaffCommand : execute(m)
+activate AddStaffCommand
+
+AddStaffCommand -> Model : hasPerson(toAdd)
+activate Model
+Model --> AddStaffCommand : false
+deactivate Model
+
+AddStaffCommand -> Model : addStaff(toAdd)
+activate Model
+Model --> AddStaffCommand
+deactivate Model
+
+create CommandResult
+AddStaffCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddStaffCommand
+deactivate CommandResult
+
+AddStaffCommand --> LogicManager : r
+deactivate AddStaffCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

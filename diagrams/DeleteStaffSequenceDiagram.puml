@@ -1,0 +1,74 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":DeleteStaffCommandParser" as DeleteStaffCommandParser LOGIC_COLOR
+participant "d:DeleteStaffCommand" as DeleteStaffCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("staffdelete 1")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("staffdelete 1")
+activate AddressBookParser
+
+create DeleteStaffCommandParser
+AddressBookParser -> DeleteStaffCommandParser
+activate DeleteStaffCommandParser
+
+DeleteStaffCommandParser --> AddressBookParser
+deactivate DeleteStaffCommandParser
+
+AddressBookParser -> DeleteStaffCommandParser : parse("1")
+activate DeleteStaffCommandParser
+
+create DeleteStaffCommand
+DeleteStaffCommandParser -> DeleteStaffCommand
+activate DeleteStaffCommand
+
+DeleteStaffCommand --> DeleteStaffCommandParser :
+deactivate DeleteStaffCommand
+
+DeleteStaffCommandParser --> AddressBookParser : d
+deactivate DeleteStaffCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+DeleteStaffCommandParser -[hidden]-> AddressBookParser
+destroy DeleteStaffCommandParser
+
+AddressBookParser --> LogicManager : d
+deactivate AddressBookParser
+
+LogicManager -> DeleteStaffCommand : execute(m)
+activate DeleteStaffCommand
+
+DeleteStaffCommand -> Model : getFilteredStaffList()
+activate Model
+Model --> DeleteStaffCommand : staffList
+deactivate Model
+
+DeleteStaffCommand -> Model : deleteStaff(staffToDelete)
+activate Model
+Model --> DeleteStaffCommand
+deactivate Model
+
+create CommandResult
+DeleteStaffCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> DeleteStaffCommand
+deactivate CommandResult
+
+DeleteStaffCommand --> LogicManager : r
+deactivate DeleteStaffCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

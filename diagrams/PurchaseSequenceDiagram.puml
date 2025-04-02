@@ -1,0 +1,67 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as CafeConnectParser LOGIC_COLOR
+participant ":PurchaseCommandParser" as PurchaseCommandParser LOGIC_COLOR
+participant "p:PurchaseCommand" as PurchaseCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("purchase 1 n/Espresso redeem/true")
+activate LogicManager
+
+LogicManager -> CafeConnectParser : parseCommand("purchase 1 n/Espresso redeem/true")
+activate CafeConnectParser
+
+CafeConnectParser -> PurchaseCommandParser : parse("1 n/Espresso redeem/true")
+activate PurchaseCommandParser
+
+create PurchaseCommand
+PurchaseCommandParser -> PurchaseCommand : new PurchaseCommand(index, drinkName, true)
+activate PurchaseCommand
+deactivate PurchaseCommand
+
+PurchaseCommandParser --> CafeConnectParser : purchaseCommand
+deactivate PurchaseCommandParser
+
+CafeConnectParser --> LogicManager : purchaseCommand
+deactivate CafeConnectParser
+
+LogicManager -> PurchaseCommand : execute(model)
+activate PurchaseCommand
+
+PurchaseCommand -> Model : getFilteredCustomerList()
+activate Model
+Model --> PurchaseCommand : customerList
+deactivate Model
+
+PurchaseCommand -> Model : getFilteredDrinkList()
+activate Model
+Model --> PurchaseCommand : drinkList
+deactivate Model
+
+note right of PurchaseCommand: Handle redemption case
+
+PurchaseCommand -> Model : setCustomer(customerToUpdate, updatedCustomer)
+activate Model
+Model --> PurchaseCommand
+deactivate Model
+
+create CommandResult
+PurchaseCommand -> CommandResult : new CommandResult(message)
+activate CommandResult
+deactivate CommandResult
+
+PurchaseCommand --> LogicManager : commandResult
+deactivate PurchaseCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

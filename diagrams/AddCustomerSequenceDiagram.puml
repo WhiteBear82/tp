@@ -1,0 +1,74 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as CafeConnectParser LOGIC_COLOR
+participant ":AddCustomerCommandParser" as AddCustomerCommandParser LOGIC_COLOR
+participant "c:AddCustomerCommand" as AddCustomerCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("customeradd ...")
+activate LogicManager
+
+LogicManager -> CafeConnectParser : parseCommand("customeradd ...")
+activate CafeConnectParser
+
+create AddCustomerCommandParser
+CafeConnectParser -> AddCustomerCommandParser
+activate AddCustomerCommandParser
+
+AddCustomerCommandParser --> CafeConnectParser
+deactivate AddCustomerCommandParser
+
+CafeConnectParser -> AddCustomerCommandParser : parse("...")
+activate AddCustomerCommandParser
+
+create AddCustomerCommand
+AddCustomerCommandParser -> AddCustomerCommand
+activate AddCustomerCommand
+
+AddCustomerCommand --> AddCustomerCommandParser :
+deactivate AddCustomerCommand
+
+AddCustomerCommandParser --> CafeConnectParser : c
+deactivate AddCustomerCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddCustomerCommandParser -[hidden]-> CafeConnectParser
+destroy AddCustomerCommandParser
+
+CafeConnectParser --> LogicManager : c
+deactivate CafeConnectParser
+
+LogicManager -> AddCustomerCommand : execute(m)
+activate AddCustomerCommand
+
+AddCustomerCommand -> Model : hasPerson(toAdd)
+activate Model
+Model --> AddCustomerCommand : false
+deactivate Model
+
+AddCustomerCommand -> Model : addCustomer(toAdd)
+activate Model
+Model --> AddCustomerCommand
+deactivate Model
+
+create CommandResult
+AddCustomerCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddCustomerCommand
+deactivate CommandResult
+
+AddCustomerCommand --> LogicManager : r
+deactivate AddCustomerCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

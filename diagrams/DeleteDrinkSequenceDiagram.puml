@@ -1,0 +1,72 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as CafeConnectParser LOGIC_COLOR
+participant ":DeleteDrinkCommandParser" as DeleteDrinkCommandParser LOGIC_COLOR
+participant "d:DeleteDrinkCommand" as DeleteDrinkCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("drinkdelete 1")
+activate LogicManager
+
+LogicManager -> CafeConnectParser : parseCommand("drinkdelete 1")
+activate CafeConnectParser
+
+create DeleteDrinkCommandParser
+CafeConnectParser -> DeleteDrinkCommandParser
+activate DeleteDrinkCommandParser
+
+DeleteDrinkCommandParser --> CafeConnectParser
+deactivate DeleteDrinkCommandParser
+
+CafeConnectParser -> DeleteDrinkCommandParser : parse(" 1")
+activate DeleteDrinkCommandParser
+
+create DeleteDrinkCommand
+DeleteDrinkCommandParser -> DeleteDrinkCommand
+activate DeleteDrinkCommand
+
+DeleteDrinkCommand --> DeleteDrinkCommandParser :
+deactivate DeleteDrinkCommand
+
+DeleteDrinkCommandParser --> CafeConnectParser : d
+deactivate DeleteDrinkCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+DeleteDrinkCommandParser -[hidden]-> CafeConnectParser
+destroy DeleteDrinkCommandParser
+
+CafeConnectParser --> LogicManager : d
+deactivate CafeConnectParser
+
+LogicManager -> DeleteDrinkCommand : execute(m)
+activate DeleteDrinkCommand
+
+DeleteDrinkCommand -> Model : deleteDrink(drinkToDelete)
+activate Model
+Model --> DeleteDrinkCommand
+deactivate Model
+
+create CommandResult
+DeleteDrinkCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> DeleteDrinkCommand
+deactivate CommandResult
+
+DeleteDrinkCommand --> LogicManager : r
+deactivate DeleteDrinkCommand
+
+[<--LogicManager : r
+deactivate LogicManager
+
+'Place the destroy at the very bottom of the diagram
+destroy DeleteDrinkCommand
+@enduml

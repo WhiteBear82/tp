@@ -1,0 +1,91 @@
+@startuml
+package "seedu.address.model.drink" {
+    interface "ReadOnlyDrinkCatalog" {
+        + getDrinkList(): List<Drink>
+    }
+
+    class "Drink" {
+        - name: String
+        - price: double
+        - category: String
+        - description: String
+        - stock: int
+        + getName(): String
+        + getPrice(): double
+        + getCategory(): String
+        + getDescription(): String
+        + getStock(): int
+        + setDescription(description: String): void
+        + setStock(stock: int): void
+        + isSameDrink(otherDrink: Drink): boolean
+        + equals(Object): boolean
+        + hashCode(): int
+        + toString(): String
+    }
+
+    class "Category" {
+        - {static} MESSAGE_CONSTRAINTS: String
+        - category: String
+        + getCategory(): String
+        + {static} isValidCategory(test: String): boolean
+        + equals(Object): boolean
+        + hashCode(): int
+        + toString(): String
+    }
+
+    class "DrinkName" {
+        - {static} MESSAGE_CONSTRAINTS: String
+        - drinkName: String
+        + getDrinkName(): String
+        + {static} isValidName(test: String): boolean
+        + equals(Object): boolean
+        + hashCode(): int
+        + toString(): String
+    }
+
+    class "Price" {
+        - {static} MESSAGE_CONSTRAINTS: String
+        - price: double
+        + getPrice(): double
+        + {static} isValidPrice(test: double): boolean
+        + equals(Object): boolean
+        + hashCode(): int
+        + toString(): String
+    }
+
+    class "UniqueDrinkList" {
+        - internalList: ObservableList<Drink>
+        - internalUnmodifiableList: ObservableList<Drink>
+        + contains(toCheck: Drink): boolean
+        + add(toAdd: Drink): void
+        + setDrink(target: Drink, editedDrink: Drink): void
+        + remove(toRemove: Drink): void
+        + setDrinks(drinks: List<Drink>): void
+        + setDrinks(replacement: UniqueDrinkList): void
+        + asUnmodifiableObservableList(): ObservableList<Drink>
+        + iterator(): Iterator<Drink>
+        + equals(Object): boolean
+        + hashCode(): int
+        + toString(): String
+        - drinksAreUnique(drinks: List<Drink>): boolean
+    }
+
+    package "exceptions" {
+        class "DrinkNotFoundException" << Exception >> {
+        }
+
+        class "DuplicateDrinkException" << Exception >> {
+        }
+    }
+
+    UniqueDrinkList ..> "Drink" : contains >
+    UniqueDrinkList ..> "DrinkNotFoundException" : throws >
+    UniqueDrinkList ..> "DuplicateDrinkException" : throws >
+    UniqueDrinkList ..|> "Iterable" : implements >
+    Drink ..> "Category" : uses >
+    Drink ..> "DrinkName" : uses >
+    Drink ..> "Price" : uses >
+    ReadOnlyDrinkCatalog ..> "Drink" : returns list of >
+}
+
+@enduml
