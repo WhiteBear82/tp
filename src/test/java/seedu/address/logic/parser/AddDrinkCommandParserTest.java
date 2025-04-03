@@ -52,4 +52,24 @@ public class AddDrinkCommandParserTest {
                 expectedMessage);
     }
 
+    @Test
+    public void parse_invalidPrice_failure() {
+        // Non-numeric price
+        assertParseFailure(parser, NAME_DESC_LATTE + " p/abc" + CATEGORY_DESC_COFFEE,
+                "Price must be a valid number with at most two decimal places");
+
+        // More than two decimal places
+        assertParseFailure(parser, NAME_DESC_LATTE + " p/3.141" + CATEGORY_DESC_COFFEE,
+                "Price must be a valid number with at most two decimal places");
+
+        // Negative price
+        assertParseFailure(parser, NAME_DESC_LATTE + " p/-5.00" + CATEGORY_DESC_COFFEE,
+                "Price must be a positive number");
+
+        // Zero price
+        assertParseFailure(parser, NAME_DESC_LATTE + " p/0" + CATEGORY_DESC_COFFEE,
+                "Price must be a positive number");
+    }
+
+
 }

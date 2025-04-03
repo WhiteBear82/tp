@@ -37,12 +37,12 @@ public class AddDrinkCommandParser implements Parser<AddDrinkCommand> {
         try {
             String priceStr = argMultimap.getValue(PREFIX_PRICE).get();
 
-            // Check if price is a valid number
-            if (!priceStr.matches("\\d+(\\.\\d{1,2})?")) {
+            if (!priceStr.matches("-?\\d+(\\.\\d{1,2})?")) {
                 throw new ParseException("Price must be a valid number with at most two decimal places");
             }
 
             price = Double.parseDouble(priceStr);
+
             if (price <= 0) {
                 throw new ParseException("Price must be a positive number");
             }
